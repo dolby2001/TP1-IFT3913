@@ -1,4 +1,4 @@
-package com.companyname.TP1;
+
 
 import junit.framework.Test;
 import junit.framework.TestCase;
