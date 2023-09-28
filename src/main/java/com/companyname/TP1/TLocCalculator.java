@@ -4,13 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+public class TLocCalculator {
 
-public class AppTest extends TestCase {
-
-    public static int tloc(String filePath) throws IOException {
+    public int tLocCalculator(String filePath) throws IOException {
         int loc = 0;
         boolean inMultiLineComment = false;
 
@@ -38,27 +34,4 @@ public class AppTest extends TestCase {
 
         return loc;
     }
-
-    public static void testTloc(String filePath) {
-        // Replace with the actual path to your Java source file
-
-        try {
-            int expectedLOC = 8; // Replace with the expected LOC count
-            int actualLOC = tloc(filePath);
-            assertEquals(expectedLOC, actualLOC);
-            System.out.println("TLOC : " + actualLOC);
-        } catch (Exception e) {
-            fail("An exception occurred: " + e.getMessage());
-        }
-    }
-
-    public static void main(String[] args) {
-
-        // Example usage
-        String filePath = "src/main/java/com/companyname/TP1/App.java";
-
-        testTloc(filePath);
-    }
-
-
 }
