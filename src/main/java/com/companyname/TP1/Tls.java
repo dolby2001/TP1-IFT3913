@@ -16,9 +16,15 @@ public class Tls {
 
         String packageName = getPackageName(file.getPath());
         String className = getClassName(file.getName());
+        String simplePath = getsimplePath(file.getPath());
 
         return String.format("%s, %s, %s, %d, %d, %.2f",
-                file.getPath(), packageName, className, tloc, tassert, tcmp);
+                simplePath, packageName, className, tloc, tassert, tcmp);
+    }
+
+    public String getsimplePath(String fullPath){
+        File file = new File(fullPath);
+        return "./" + file.getName();
     }
 
     public double tCmpCalculator(long tloc, long tassert) {
