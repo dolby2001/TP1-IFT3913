@@ -1,4 +1,4 @@
-package com.companyname.TP1;
+
 
 import java.io.File;
 import java.io.IOException;
