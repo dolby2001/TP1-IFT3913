@@ -1,4 +1,4 @@
-package com.companyname.TP1;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,12 +9,14 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.junit.Test;
 
+
+
 public class TassertTest extends TestCase {
 
     @Test
     public void testTassert(){
         TAssertCalculator tassert = new TAssertCalculator();
-        String filePath = "src/test/java/com/companyname/TP1/TlocTest.java";
+        String filePath = "src/test/java/TlocTest.java";
         try {
             int expectedASSERT = 2; // Replace with the expected LOC count
             int actualASSERT = tassert.testAssert(filePath);

@@ -1,7 +1,10 @@
-package com.companyname.TP1;
+
 
 import org.junit.Before;
 import org.junit.Test;
+
+
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -20,7 +23,7 @@ public class TlsTest {
     @Test
     public void testProcessJavaFilesDirectory() throws Exception {
         Tls tls = new Tls();
-        tls.processJavaFilesDirectory("src/main/java/com/companyname/TP1"); 
+        tls.processJavaFilesDirectory("src/main/java"); 
         String expectedOutput = 
             "./App.java, com.companyname.TP1, App, 8, 0, 0.00\r\n" + 
             "./TAssertCalculator.java, com.companyname.TP1, TAssertCalculator, 22, 2, 11.00\r\n" + 

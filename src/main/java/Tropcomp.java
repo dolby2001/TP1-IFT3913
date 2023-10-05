@@ -19,12 +19,12 @@ public class Tropcomp {
         double seuil = Double.parseDouble(args[3]);
 
 
-        try {
+        try{
             // Call a method to traverse files in the input directory recursively
             traverseFiles(inputDirectory, outputPath, seuil);
 
             System.out.println("Computation completed successfully!");
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.err.println("An error occurred: " + e.getMessage());
         }
     }
@@ -50,7 +50,8 @@ public class Tropcomp {
                     try{
                         int tloc = tLocCalculator.tLocCalculator(fileOrDir.getAbsolutePath());
                         System.out.println(fileOrDir.getAbsolutePath());
-
+                        
+                        //String output = tls.processJavaFile(fileOrDir.getAbsolutePath(),"");
                     } catch(Exception e){
                         System.err.println("An error occurred: " + e.getMessage());
                     }
