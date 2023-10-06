@@ -108,7 +108,7 @@ public class Tropcomp {
                     if (ltloc.get(0) >= tlocVal && ltcmp.get(0) >= tcmpcVal) {
                         try{
 
-                            System.out.println(tls.processJavaFile(fileOrDir, ""));
+                            System.out.println(tls.processJavaFile(fileOrDir,  ""));
                         } catch (Exception e){
                             System.err.println("An error occurred: " + e.getMessage());
                         }
