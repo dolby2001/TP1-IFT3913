@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TAssertCalculator {
-    public int testAssert(String filePath) {
+    public int tAssertCalculator(String filePath) {
         int tAssertCount = 0;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

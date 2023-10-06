@@ -26,9 +26,9 @@ public class Tls {
         }
     }
 
-    private String processJavaFile(File file, String baseDirectory) throws IOException {
+    public String processJavaFile(File file, String baseDirectory) throws IOException {
         long tloc = tLocCalculator.tLocCalculator(file.getPath());
-        long tassert = tAssertCalculator.testAssert(file.getPath());
+        long tassert = tAssertCalculator.tAssertCalculator(file.getPath());
         double tcmp = tCmpCalculator(tloc, tassert);
 
         String packageName = getPackageName(file.getPath());
