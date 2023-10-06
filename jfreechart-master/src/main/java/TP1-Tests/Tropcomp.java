@@ -9,17 +9,15 @@ public class Tropcomp {
 
     public static void main(String[] args) throws IOException {
 
-        // Check if the correct number of arguments are provided
         if (args.length != 4 || !args[0].equals("-o")) {
             System.out.println("Usage: tropcomp -o <output.csv> <input> <seuil>");
             return;
         }
-        // Parse the command-line arguments
-        String outputPath = args[2];
+        String outputPath = args[1];
         double seuil = Double.parseDouble(args[3]);
 
-        // Create File
-        String filePath = args[1];
+
+        String filePath = args[2];
         if (!new File(filePath).isAbsolute()) {
             filePath = new File(System.getProperty("user.dir") + "/../../" + filePath).getCanonicalPath();
             System.out.println("file : " + filePath);
@@ -27,19 +25,17 @@ public class Tropcomp {
         File inputDirectory = new File(filePath);
 
 
-        // List of tloc and tcmp values
         ArrayList<Integer> ltloc = new ArrayList<Integer>();
         ArrayList<Integer> ltcmp = new ArrayList<Integer>();
 
         try {
-            // Method to traverse files in the input directory recursively
             processFilesAndDirs(inputDirectory, ltloc, ltcmp);
             System.out.println("Traverse files completed successfully!");
         } catch (Exception e) {
             System.err.println("An error occurred: " + e.getMessage());
         }
 
-        // Calute the seuil
+
         int lenght = ltloc.size();
         System.out.println("num of files : " + lenght);
         ArrayList<Integer> sortedLtloc = new ArrayList<>(ltloc);;
@@ -47,7 +43,7 @@ public class Tropcomp {
         Collections.sort(sortedLtloc);
         Collections.sort(sortedLtcmp);
 
-        int numFiles = (int) (lenght * seuil);
+        int numFiles = (int) (lenght * (1-seuil));
         System.out.println("files that are under the seuil : " + numFiles);
 
         int tlocVal = sortedLtloc.get(numFiles);
@@ -56,14 +52,13 @@ public class Tropcomp {
         int tcmpcVal = sortedLtcmp.get(numFiles);
         System.out.println("seuil value for tcmp : " + tcmpcVal);
 
-        // Create a CSV file and write to it
+
         String csvFileName = outputPath;
-        // Create a FileWriter and PrintWriter to write to the CSV file
+
         try{
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);    
             
-            // Method to traverse files in the input directory recursively and find questionable files
             findFiles(inputDirectory, ltloc, ltcmp, tlocVal, tcmpcVal, printWriter);
 
             printWriter.close();
@@ -86,7 +81,7 @@ public class Tropcomp {
         if (filesAndDirs != null) {
             for (File fileOrDir : filesAndDirs) {
                 if (fileOrDir.isFile()) {
-                    // Process files here
+
                     try{
                         int tlocVal = TLocCalculator.tLocCalculator(fileOrDir.getAbsolutePath());
                         int tassertVal = TAssertCalculator.tAssertCalculator(fileOrDir.getAbsolutePath());
@@ -94,7 +89,7 @@ public class Tropcomp {
                         if(tassertVal!=0){
                             ltcmp.add(tlocVal / tassertVal);
                         }else{
-                            ltcmp.add(tlocVal); //check if ok
+                            ltcmp.add(0); 
                         }
                         
                     } catch(Exception e){
@@ -119,7 +114,6 @@ public class Tropcomp {
         if (filesAndDirs != null) {
             for (File fileOrDir : filesAndDirs) {
                 if (fileOrDir.isFile()) {
-                    // Process files here
 
                     if (ltloc.get(0) >= tlocVal && ltcmp.get(0) >= tcmpcVal) {
                         try{
@@ -131,7 +125,6 @@ public class Tropcomp {
                     ltloc.remove(0);
                     ltcmp.remove(0);
                 } else if (fileOrDir.isDirectory()) {
-                    // Recursively traverse subdirectories
                     findFiles(fileOrDir, ltloc, ltcmp, tlocVal,tcmpcVal, printWriter);
                 }
             }
