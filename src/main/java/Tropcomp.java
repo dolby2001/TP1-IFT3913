@@ -18,6 +18,7 @@ public class Tropcomp {
         String outputPath = args[2];
         String inputPath = args[1];
         double seuil = Double.parseDouble(args[3]);
+        
 
         // Create File
         File inputDirectory =  new File( System.getProperty("user.dir") + "/../../" + inputPath);
@@ -51,11 +52,25 @@ public class Tropcomp {
         int tcmpcVal = sortedLtcmp.get(numFiles);
         System.out.println("seuil value for tcmp : " + tcmpcVal);
 
+        // Create a CSV file and write to it
+        String csvFileName = outputPath;
+        // Create a FileWriter and PrintWriter to write to the CSV file
+        try{
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);    
+            
+            // Method to traverse files in the input directory recursively and find questionable files
+            findFiles(inputDirectory, ltloc, ltcmp, tlocVal, tcmpcVal, printWriter);
+
+            printWriter.close();
+            fileWriter.close();
+
+        } catch(Exception e){
+            System.err.println("An error occurred: " + e.getMessage());
+        }    
 
 
 
-        // Method to traverse files in the input directory recursively and find questionable files
-        findFiles(inputDirectory, ltloc, ltcmp, tlocVal, tcmpcVal, outputPath);
 
     }
 
@@ -94,7 +109,7 @@ public class Tropcomp {
 
 
     private static void findFiles(File directory, ArrayList<Integer> ltloc, ArrayList<Integer> ltcmp, int tlocVal,
-            int tcmpcVal, String outputPath) {
+            int tcmpcVal, PrintWriter printWriter) {
 
         File[] filesAndDirs = directory.listFiles();
         Tls tls = new Tls();
@@ -107,8 +122,7 @@ public class Tropcomp {
 
                     if (ltloc.get(0) >= tlocVal && ltcmp.get(0) >= tcmpcVal) {
                         try{
-
-                            System.out.println(tls.processJavaFile(fileOrDir,  ""));
+                            printWriter.println(tls.processJavaFile(fileOrDir,  ""));
                         } catch (Exception e){
                             System.err.println("An error occurred: " + e.getMessage());
                         }
@@ -117,10 +131,12 @@ public class Tropcomp {
                     ltcmp.remove(0);
                 } else if (fileOrDir.isDirectory()) {
                     // Recursively traverse subdirectories
-                    findFiles(fileOrDir, ltloc, ltcmp, tlocVal,tcmpcVal, outputPath);
+                    findFiles(fileOrDir, ltloc, ltcmp, tlocVal,tcmpcVal, printWriter);
                 }
             }
         }
     }
+
+
 
 }

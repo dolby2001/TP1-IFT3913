@@ -1,14 +1,21 @@
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class TLocCalculator {
 
-    public int tLocCalculator(String filePath) throws IOException {
+    public static void main(String[] args) throws IOException {
         int loc = 0;
         boolean inMultiLineComment = false;
-
+        String filePath = args[0];
+        File file = new File(filePath);
+        File inputDirectory =  new File( System.getProperty("user.dir") + "/../../" + filePath);
+        if(inputDirectory.toPath() != file.toPath()){
+            filePath = System.getProperty("user.dir") + "/../../" + filePath;
+        }
+        System.out.println(filePath);
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -31,6 +38,6 @@ public class TLocCalculator {
             }
         }
 
-        return loc;
+        System.out.println("TLoc : " + loc);
     }
 }
