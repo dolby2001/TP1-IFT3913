@@ -5,8 +5,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Tls {
-    private TLocCalculator tLocCalculator = new TLocCalculator();
-    private TAssertCalculator tAssertCalculator = new TAssertCalculator();
 
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
@@ -71,8 +69,8 @@ public class Tls {
     }
 
     public String processJavaFile(File file, String baseDirectory) throws IOException {
-        long tloc = tLocCalculator.tLocCalculator(file.getPath());
-        long tassert = tAssertCalculator.tAssertCalculator(file.getPath());
+        long tloc = TLocCalculator.tLocCalculator(file.getPath());
+        long tassert = TAssertCalculator.tAssertCalculator(file.getPath());
         double tcmp = tCmpCalculator(tloc, tassert);
 
         String packageName = getPackageName(file.getPath());

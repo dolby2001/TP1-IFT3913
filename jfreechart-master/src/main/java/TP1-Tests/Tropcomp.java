@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class Tropcomp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // Check if the correct number of arguments are provided
         if (args.length != 4 || !args[0].equals("-o")) {
@@ -16,13 +16,17 @@ public class Tropcomp {
         }
         // Parse the command-line arguments
         String outputPath = args[2];
-        String inputPath = args[1];
         double seuil = Double.parseDouble(args[3]);
-        
 
         // Create File
-        File inputDirectory =  new File( System.getProperty("user.dir") + "/../../" + inputPath);
-        
+        String filePath = args[1];
+        if (!new File(filePath).isAbsolute()) {
+            filePath = new File(System.getProperty("user.dir") + "/../../" + filePath).getCanonicalPath();
+            System.out.println("file : " + filePath);
+        }
+        File inputDirectory = new File(filePath);
+
+
         // List of tloc and tcmp values
         ArrayList<Integer> ltloc = new ArrayList<Integer>();
         ArrayList<Integer> ltcmp = new ArrayList<Integer>();
@@ -78,17 +82,14 @@ public class Tropcomp {
 
         File[] filesAndDirs = directory.listFiles();
 
-        // create our calculators
-        TLocCalculator tLocCalculator = new TLocCalculator();
-        TAssertCalculator tAssertCalculator = new TAssertCalculator();
     
         if (filesAndDirs != null) {
             for (File fileOrDir : filesAndDirs) {
                 if (fileOrDir.isFile()) {
                     // Process files here
                     try{
-                        int tlocVal = tLocCalculator.tLocCalculator(fileOrDir.getAbsolutePath());
-                        int tassertVal = tAssertCalculator.tAssertCalculator(fileOrDir.getAbsolutePath());
+                        int tlocVal = TLocCalculator.tLocCalculator(fileOrDir.getAbsolutePath());
+                        int tassertVal = TAssertCalculator.tAssertCalculator(fileOrDir.getAbsolutePath());
                         ltloc.add(tlocVal);
                         if(tassertVal!=0){
                             ltcmp.add(tlocVal / tassertVal);
